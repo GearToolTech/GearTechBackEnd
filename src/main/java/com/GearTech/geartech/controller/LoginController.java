@@ -1,49 +1,56 @@
 package com.GearTech.geartech.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.GearTech.geartech.config.security.TokenService;
+import com.GearTech.geartech.dto.LoginRequestAlunoDTO;
+import com.GearTech.geartech.dto.RegisterRequestAlunoDTO;
+import com.GearTech.geartech.dto.ResponseDTO;
 import com.GearTech.geartech.entity.Aluno;
 import com.GearTech.geartech.repository.AlunoRepository;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
+@RequestMapping("/auth")
 public class LoginController {
 
-    @Autowired
-    private AlunoRepository alunoRepository;
+    private final AlunoRepository alunoRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final TokenService tokenService;
 
-    @PostMapping("/login")
-    public ResponseEntity<String> authenticate(@RequestBody LoginRequest loginRequest) {
-        Aluno aluno = alunoRepository.findByNumMatricula(loginRequest.getNumMatricula());
-        if (aluno != null && aluno.getSenha().equals(loginRequest.getSenha())) {
-            return ResponseEntity.ok("Login bem-sucedido!");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas!");
-        }
+    public LoginController(AlunoRepository alunoRepository, PasswordEncoder passwordEncoder, TokenService tokenService) {
+        this.alunoRepository = alunoRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.tokenService = tokenService;
     }
 
-    static class LoginRequest {
-        private Long numMatricula;
-        private String senha;
-
-        public Long getNumMatricula() {
-            return numMatricula;
+    @PostMapping("/loginAluno")
+    public ResponseEntity login(@RequestBody LoginRequestAlunoDTO body) {
+        Aluno aluno = this.alunoRepository.findByNumMatricula(body.numMatricula()).orElseThrow(() -> new RuntimeException("User not found"));
+        if (passwordEncoder.matches(body.senha(), aluno.getSenha())) {
+            String token = this.tokenService.generateToken(aluno);
+            return ResponseEntity.ok(new ResponseDTO(aluno.getNome(), token));
         }
+        return ResponseEntity.badRequest().build();
+    }
 
-        public void setNumMatricula(Long numMatricula) {
-            this.numMatricula = numMatricula;
-        }
+    @PostMapping("/registerAluno")
+    public ResponseEntity register(@RequestBody RegisterRequestAlunoDTO body) {
+        Optional<Aluno> aluno = this.alunoRepository.findByNumMatricula(body.numMatricula());
+        if (aluno.isEmpty()) {
+            Aluno newAluno = new Aluno();
+            newAluno.setSenha(passwordEncoder.encode(body.senha()));
+            newAluno.setNome(body.nome());
+            newAluno.setEmail(body.email());
+            newAluno.setTurma(body.turma());
+            newAluno.setNumMatricula(body.numMatricula());
+            this.alunoRepository.save(newAluno);
+            String token = this.tokenService.generateToken(newAluno);
+            return ResponseEntity.ok(new ResponseDTO(newAluno.getNome(), token));
 
-        public String getSenha() {
-            return senha;
         }
-
-        public void setSenha(String senha) {
-            this.senha = senha;
-        }
+        return ResponseEntity.badRequest().build();
     }
 }
