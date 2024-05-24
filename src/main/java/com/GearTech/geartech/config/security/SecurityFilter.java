@@ -1,7 +1,9 @@
 package com.GearTech.geartech.config.security;
 
 import com.GearTech.geartech.entity.Aluno;
+import com.GearTech.geartech.entity.Professor;
 import com.GearTech.geartech.repository.AlunoRepository;
+import com.GearTech.geartech.repository.ProfessorRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +24,8 @@ public class SecurityFilter extends OncePerRequestFilter {
     TokenService tokenService;
     @Autowired
     AlunoRepository alunoRepository;
+    @Autowired
+    ProfessorRepository professorRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -29,10 +33,17 @@ public class SecurityFilter extends OncePerRequestFilter {
         var login = tokenService.validateToken(token);
 
         if(login != null){
-            Aluno aluno = alunoRepository.findByNumMatricula(Long.valueOf(login)).orElseThrow(() -> new RuntimeException("User Not Found"));
-            var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-            var authentication = new UsernamePasswordAuthenticationToken(aluno, null, authorities);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            Aluno aluno = alunoRepository.findByNumMatricula(Long.valueOf(login)).orElseThrow(() -> new RuntimeException("User Aluno Not Found"));
+            if(aluno != null){
+                var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+                var authentication = new UsernamePasswordAuthenticationToken(aluno, null, authorities);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else {
+                Professor professor = professorRepository.findByNif(Long.valueOf(login)).orElseThrow(() -> new RuntimeException("User Professor Not Found"));
+                var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+                var authentication = new UsernamePasswordAuthenticationToken(professor, null, authorities);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         }
         filterChain.doFilter(request, response);
     }

@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/loginAluno").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/loginProfessor").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/registerAluno").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/registerProfessor").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

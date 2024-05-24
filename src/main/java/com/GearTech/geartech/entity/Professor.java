@@ -15,7 +15,6 @@ public class Professor {
 	private Long nif;
 	private String nome;
 	private String email;
-	@Column(length=20)
 	private String senha;
 	
 	public Professor() {
