@@ -5,6 +5,7 @@ import com.GearTech.geartech.entity.Aluno;
 import com.GearTech.geartech.repository.AlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,8 +21,9 @@ public class AlunoController {
     }
     
     @GetMapping
-    public ResponseEntity<String> getAluno(){
-        return ResponseEntity.ok("sucesso!");
+    public ResponseEntity<Long> getAlunoId(Authentication authentication){
+        Aluno aluno = (Aluno) authentication.getPrincipal();
+        return ResponseEntity.ok(aluno.getNumMatricula());
     }
     
     @PutMapping("/{id}")

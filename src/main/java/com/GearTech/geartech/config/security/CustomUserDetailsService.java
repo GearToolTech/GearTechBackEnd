@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Aluno aluno = this.alunoRepository.findByNumMatricula(Long.valueOf(username)).orElseThrow(() -> new UsernameNotFoundException("User Aluno not found"));
         if(aluno != null){
-            return new org.springframework.security.core.userdetails.User(String.valueOf(aluno.getNumMatricula()), aluno.getSenha(), new ArrayList<>());
+            return aluno;
         } else {
             Professor professor = this.professorRepository.findByNif(Long.valueOf(username)).orElseThrow(() -> new UsernameNotFoundException("User Professor not found"));
             return new org.springframework.security.core.userdetails.User(String.valueOf(professor.getNif()), professor.getSenha(), new ArrayList<>());

@@ -40,9 +40,11 @@ public class SecurityFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } else {
                 Professor professor = professorRepository.findByNif(Long.valueOf(login)).orElseThrow(() -> new RuntimeException("User Professor Not Found"));
-                var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-                var authentication = new UsernamePasswordAuthenticationToken(professor, null, authorities);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                if(professor != null) {
+                    var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+                    var authentication = new UsernamePasswordAuthenticationToken(professor, null, authorities);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
             }
         }
         filterChain.doFilter(request, response);
