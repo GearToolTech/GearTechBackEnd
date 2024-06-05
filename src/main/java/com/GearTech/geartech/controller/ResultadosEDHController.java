@@ -1,8 +1,11 @@
 package com.GearTech.geartech.controller;
 
+import java.util.List;
 import java.util.Optional;
 
+import com.GearTech.geartech.entity.ResultadosEDR;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,10 +24,11 @@ public class ResultadosEDHController {
 
 	@Autowired
 	private ResultadosEDHRepository resultadosEDHRepository;
-	
-	@GetMapping
-	public Iterable<ResultadosEDH> findIAll(){
-		return resultadosEDHRepository.findAll();
+
+	@GetMapping("/aluno/{numMatricula}")
+	public ResponseEntity<List<ResultadosEDH>> findResultadosByAlunoNumMatricula(@PathVariable String numMatricula) {
+		List<ResultadosEDH> resultados = resultadosEDHRepository.findByAlunoNumMatricula(numMatricula);
+		return ResponseEntity.ok(resultados);
 	}
 	
 	@GetMapping("/{id}")

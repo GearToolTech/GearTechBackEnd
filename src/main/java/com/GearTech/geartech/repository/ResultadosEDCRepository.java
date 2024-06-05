@@ -1,13 +1,14 @@
 package com.GearTech.geartech.repository;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.GearTech.geartech.entity.ResultadosEDC;
+import org.springframework.data.repository.query.Param;
 
 public interface ResultadosEDCRepository extends JpaRepository<ResultadosEDC, Long>{
-	@Query("SELECT a FROM ResultadosEDC a WHERE a.id = :id")
-    Optional<ResultadosEDC> findById(Long id);
+    @Query("SELECT r FROM ResultadosEDC r WHERE r.aluno.numMatricula = :numMatricula")
+    List<ResultadosEDC> findByAlunoNumMatricula(@Param("numMatricula") String numMatricula);
 }

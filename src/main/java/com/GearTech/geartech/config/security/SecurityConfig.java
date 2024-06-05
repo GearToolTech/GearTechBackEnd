@@ -35,9 +35,13 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/registerAluno").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/registerProfessor").permitAll()
                         .requestMatchers(HttpMethod.POST, "/resultadoDentesRetos").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/resultadoDentesRetos/aluno/{numMatricula}").permitAll()
                         .requestMatchers(HttpMethod.POST, "/resultadoDentesConicos").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/resultadoDentesConicos/aluno/{numMatricula}").permitAll()
                         .requestMatchers(HttpMethod.POST, "/resultadoDentesHelicoidas").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/resultadoDentesHelicoidas/aluno/{numMatricula}").permitAll()
                         .requestMatchers(HttpMethod.POST, "/resultadoTransmissoes").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/resultadoTransmissoes/aluno/{numMatricula}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
