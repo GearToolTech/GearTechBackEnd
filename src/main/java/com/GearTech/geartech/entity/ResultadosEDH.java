@@ -100,38 +100,31 @@ public class ResultadosEDH {
 	public void setAluno(Aluno aluno) {
 		this.aluno = aluno;
 	}
-	
+
 	@Override
-	public int hashCode() {
-		return Objects.hash(aluno, circuloPrimitivo1, circuloPrimitivo2, distanciaEntreEixos, id, moduloNormal,
-				passoHelicoidal, passoNormal);
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		ResultadosEDH that = (ResultadosEDH) o;
+		return Float.compare(circuloPrimitivo1, that.circuloPrimitivo1) == 0 && Float.compare(circuloPrimitivo2, that.circuloPrimitivo2) == 0 && Float.compare(moduloNormal, that.moduloNormal) == 0 && Float.compare(passoNormal, that.passoNormal) == 0 && Float.compare(passoHelicoidal, that.passoHelicoidal) == 0 && Float.compare(distanciaEntreEixos, that.distanciaEntreEixos) == 0 && Objects.equals(id, that.id) && Objects.equals(aluno, that.aluno);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ResultadosEDH other = (ResultadosEDH) obj;
-		return Objects.equals(aluno, other.aluno)
-				&& Float.floatToIntBits(circuloPrimitivo1) == Float.floatToIntBits(other.circuloPrimitivo1)
-				&& Float.floatToIntBits(circuloPrimitivo2) == Float.floatToIntBits(other.circuloPrimitivo2)
-				&& Float.floatToIntBits(distanciaEntreEixos) == Float.floatToIntBits(other.distanciaEntreEixos)
-				&& Objects.equals(id, other.id)
-				&& Float.floatToIntBits(moduloNormal) == Float.floatToIntBits(other.moduloNormal)
-				&& Float.floatToIntBits(passoHelicoidal) == Float.floatToIntBits(other.passoHelicoidal)
-				&& Float.floatToIntBits(passoNormal) == Float.floatToIntBits(other.passoNormal);
+	public int hashCode() {
+		return Objects.hash(id, circuloPrimitivo1, circuloPrimitivo2, moduloNormal, passoNormal, passoHelicoidal, distanciaEntreEixos, aluno);
 	}
 
 	@Override
 	public String toString() {
-		return "ResultadosEDH [id=" + id + ", circuloPrimitivo1=" + circuloPrimitivo1 + ", circuloPrimitivo2="
-				+ circuloPrimitivo2 + ", moduloNormal=" + moduloNormal + ", passoNormal=" + passoNormal
-				+ ", passoHelicoidal=" + passoHelicoidal + ", distanciaEntreEixos=" + distanciaEntreEixos + ", aluno="
-				+ aluno + "]";
+		return "ResultadosEDH{" +
+				"id=" + id +
+				", circuloPrimitivo1=" + circuloPrimitivo1 +
+				", circuloPrimitivo2=" + circuloPrimitivo2 +
+				", moduloNormal=" + moduloNormal +
+				", passoNormal=" + passoNormal +
+				", passoHelicoidal=" + passoHelicoidal +
+				", distanciaEntreEixos=" + distanciaEntreEixos +
+				", aluno=" + aluno.getNome() +
+				'}';
 	}
-
 }

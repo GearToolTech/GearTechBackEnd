@@ -68,28 +68,25 @@ public class ResultadosT {
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(aluno, iIndividuais, iTotal, id);
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		ResultadosT that = (ResultadosT) o;
+		return Float.compare(iTotal, that.iTotal) == 0 && Float.compare(iIndividuais, that.iIndividuais) == 0 && Objects.equals(id, that.id) && Objects.equals(aluno, that.aluno);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ResultadosT other = (ResultadosT) obj;
-		return Objects.equals(aluno, other.aluno)
-				&& Float.floatToIntBits(iIndividuais) == Float.floatToIntBits(other.iIndividuais)
-				&& Float.floatToIntBits(iTotal) == Float.floatToIntBits(other.iTotal) && Objects.equals(id, other.id);
+	public int hashCode() {
+		return Objects.hash(id, iTotal, iIndividuais, aluno);
 	}
 
 	@Override
 	public String toString() {
-		return "ResultadosT [id=" + id + ", iTotal=" + iTotal + ", iIndividuais=" + iIndividuais + ", aluno=" + aluno
-				+ "]";
+		return "ResultadosT{" +
+				"id=" + id +
+				", iTotal=" + iTotal +
+				", iIndividuais=" + iIndividuais +
+				", aluno=" + aluno.getNome() +
+				'}';
 	}
-
 }

@@ -1,6 +1,5 @@
 package com.GearTech.geartech.controller;
 
-
 import com.GearTech.geartech.entity.Aluno;
 import com.GearTech.geartech.repository.AlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class AlunoController {
         Aluno aluno = (Aluno) authentication.getPrincipal();
         return ResponseEntity.ok(aluno.getNumMatricula());
     }
-    
+
     @PutMapping("/{id}")
     public Aluno updateAluno(@PathVariable Long numMatricula, @RequestBody Aluno aluno) {
     	aluno.setNumMatricula(numMatricula);

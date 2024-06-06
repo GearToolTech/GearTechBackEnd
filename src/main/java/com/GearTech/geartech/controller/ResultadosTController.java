@@ -2,7 +2,11 @@ package com.GearTech.geartech.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.GearTech.geartech.dto.AlunoDTO;
+import com.GearTech.geartech.dto.ResultadosTDTO;
+import com.GearTech.geartech.entity.Aluno;
 import com.GearTech.geartech.entity.ResultadosEDR;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +35,23 @@ public class ResultadosTController {
 	}
 
 	@GetMapping("/aluno/{numMatricula}")
-	public ResponseEntity<List<ResultadosT>> findResultadosByAlunoNumMatricula(@PathVariable String numMatricula) {
+	public ResponseEntity<List<ResultadosTDTO>> findResultadosByAlunoNumMatricula(@PathVariable String numMatricula) {
 		List<ResultadosT> resultados = resultadosTRepository.findByAlunoNumMatricula(numMatricula);
-		return ResponseEntity.ok(resultados);
+
+		List<ResultadosTDTO> resultadosDTO = resultados.stream()
+				.map(resultado -> {
+					Aluno aluno = resultado.getAluno(); // Supondo que você tenha um método getAluno() em ResultadosEDR
+					AlunoDTO alunoDTO = new AlunoDTO(aluno.getNumMatricula(), aluno.getNome());
+					return new ResultadosTDTO(
+							resultado.getId(),
+							resultado.getiTotal(),
+							resultado.getiIndividuais(),
+							alunoDTO
+					);
+				})
+				.collect(Collectors.toList());
+
+		return ResponseEntity.ok(resultadosDTO);
 	}
 	
 	@PostMapping

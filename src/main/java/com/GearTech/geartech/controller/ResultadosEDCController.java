@@ -2,7 +2,11 @@ package com.GearTech.geartech.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.GearTech.geartech.dto.AlunoDTO;
+import com.GearTech.geartech.dto.ResultadosEDCDTO;
+import com.GearTech.geartech.entity.Aluno;
 import com.GearTech.geartech.entity.ResultadosEDR;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +35,26 @@ public class ResultadosEDCController {
 	}
 
 	@GetMapping("/aluno/{numMatricula}")
-	public ResponseEntity<List<ResultadosEDC>> findResultadosByAlunoNumMatricula(@PathVariable String numMatricula) {
+	public ResponseEntity<List<ResultadosEDCDTO>> findResultadosByAlunoNumMatricula(@PathVariable String numMatricula) {
 		List<ResultadosEDC> resultados = resultadosEDCRepository.findByAlunoNumMatricula(numMatricula);
-		return ResponseEntity.ok(resultados);
+
+		List<ResultadosEDCDTO> resultadosDTO = resultados.stream().map(resultado -> {
+			Aluno aluno = resultado.getAluno(); // Supondo que você tenha um método getAluno() em ResultadosEDR
+			AlunoDTO alunoDTO = new AlunoDTO(aluno.getNumMatricula(), aluno.getNome());
+			return new ResultadosEDCDTO(
+					resultado.getId(),
+					resultado.getCirculoPrimitivo1(),
+					resultado.getCirculoPrimitivo2(),
+					resultado.getAnguloConeCabe1(),
+					resultado.getAnguloConeCabe2(),
+					resultado.getAnguloPrimitivo1(),
+					resultado.getAnguloPrimitivo2(),
+					resultado.getAnguloEixos(),
+					alunoDTO
+			);
+		}).collect(Collectors.toList());
+
+		return ResponseEntity.ok(resultadosDTO);
 	}
 	
 	@PostMapping

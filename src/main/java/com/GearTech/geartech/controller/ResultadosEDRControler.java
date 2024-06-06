@@ -2,7 +2,11 @@ package com.GearTech.geartech.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.GearTech.geartech.dto.AlunoDTO;
+import com.GearTech.geartech.dto.ResultadosEDRDTO;
+import com.GearTech.geartech.entity.Aluno;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,11 +34,38 @@ public class ResultadosEDRControler {
 	}
 
 	@GetMapping("/aluno/{numMatricula}")
-	public ResponseEntity<List<ResultadosEDR>> findResultadosByAlunoNumMatricula(@PathVariable String numMatricula) {
+	public ResponseEntity<List<ResultadosEDRDTO>> findResultadosByAlunoNumMatricula(@PathVariable String numMatricula) {
 		List<ResultadosEDR> resultados = resultadosEDRRepository.findByAlunoNumMatricula(numMatricula);
-		return ResponseEntity.ok(resultados);
+
+		// Converta para DTO
+		List<ResultadosEDRDTO> resultadosDTO = resultados.stream()
+				.map(resultado -> {
+					Aluno aluno = resultado.getAluno(); // Supondo que você tenha um método getAluno() em ResultadosEDR
+					AlunoDTO alunoDTO = new AlunoDTO(aluno.getNumMatricula(), aluno.getNome());
+					return new ResultadosEDRDTO(
+							resultado.getId(),
+							resultado.getCirculoPrimitivo1(),
+							resultado.getPasso(),
+							resultado.getFolgaCabeca(),
+							resultado.getAlturaCabecaDente(),
+							resultado.getAlturaPeDente(),
+							resultado.getAlturaDente(),
+							resultado.getCirculoCabeca(),
+							resultado.getCirculoPe(),
+							resultado.getDistanciaEixos(),
+							resultado.getCirculoCabecaInterno(),
+							resultado.getCirculoPeInterno(),
+							resultado.getCirculoPrimitivo2(),
+							resultado.getDistanciaEixosInterno(),
+							alunoDTO
+					);
+				})
+				.collect(Collectors.toList());
+
+		return ResponseEntity.ok(resultadosDTO);
 	}
-	
+
+
 	@PostMapping
 	public ResultadosEDR createResultadosEDR(@RequestBody ResultadosEDR resultadosEDR) {
 		return resultadosEDRRepository.save(resultadosEDR);

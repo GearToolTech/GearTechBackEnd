@@ -180,46 +180,36 @@ public class ResultadosEDR {
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(alturaCabecaDente, alturaDente, alturaPeDente, aluno, circuloCabeca, circuloCabecaInterno,
-				circuloPe, circuloPeInterno, circuloPrimitivo1, circuloPrimitivo2, distanciaEixos,
-				distanciaEixosInterno, folgaCabeca, id, passo);
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		ResultadosEDR that = (ResultadosEDR) o;
+		return Float.compare(circuloPrimitivo1, that.circuloPrimitivo1) == 0 && Float.compare(passo, that.passo) == 0 && Float.compare(folgaCabeca, that.folgaCabeca) == 0 && Float.compare(alturaCabecaDente, that.alturaCabecaDente) == 0 && Float.compare(alturaPeDente, that.alturaPeDente) == 0 && Float.compare(alturaDente, that.alturaDente) == 0 && Float.compare(circuloCabeca, that.circuloCabeca) == 0 && Float.compare(circuloPe, that.circuloPe) == 0 && Float.compare(distanciaEixos, that.distanciaEixos) == 0 && Float.compare(circuloCabecaInterno, that.circuloCabecaInterno) == 0 && Float.compare(circuloPeInterno, that.circuloPeInterno) == 0 && Float.compare(circuloPrimitivo2, that.circuloPrimitivo2) == 0 && Float.compare(distanciaEixosInterno, that.distanciaEixosInterno) == 0 && Objects.equals(id, that.id) && Objects.equals(aluno, that.aluno);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ResultadosEDR other = (ResultadosEDR) obj;
-		return Float.floatToIntBits(alturaCabecaDente) == Float.floatToIntBits(other.alturaCabecaDente)
-				&& Float.floatToIntBits(alturaDente) == Float.floatToIntBits(other.alturaDente)
-				&& Float.floatToIntBits(alturaPeDente) == Float.floatToIntBits(other.alturaPeDente)
-				&& Objects.equals(aluno, other.aluno)
-				&& Float.floatToIntBits(circuloCabeca) == Float.floatToIntBits(other.circuloCabeca)
-				&& Float.floatToIntBits(circuloCabecaInterno) == Float.floatToIntBits(other.circuloCabecaInterno)
-				&& Float.floatToIntBits(circuloPe) == Float.floatToIntBits(other.circuloPe)
-				&& Float.floatToIntBits(circuloPeInterno) == Float.floatToIntBits(other.circuloPeInterno)
-				&& Float.floatToIntBits(circuloPrimitivo1) == Float.floatToIntBits(other.circuloPrimitivo1)
-				&& Float.floatToIntBits(circuloPrimitivo2) == Float.floatToIntBits(other.circuloPrimitivo2)
-				&& Float.floatToIntBits(distanciaEixos) == Float.floatToIntBits(other.distanciaEixos)
-				&& Float.floatToIntBits(distanciaEixosInterno) == Float.floatToIntBits(other.distanciaEixosInterno)
-				&& Float.floatToIntBits(folgaCabeca) == Float.floatToIntBits(other.folgaCabeca)
-				&& Objects.equals(id, other.id) && Float.floatToIntBits(passo) == Float.floatToIntBits(other.passo);
+	public int hashCode() {
+		return Objects.hash(id, circuloPrimitivo1, passo, folgaCabeca, alturaCabecaDente, alturaPeDente, alturaDente, circuloCabeca, circuloPe, distanciaEixos, circuloCabecaInterno, circuloPeInterno, circuloPrimitivo2, distanciaEixosInterno, aluno);
 	}
 
 	@Override
 	public String toString() {
-		return "ResultadosEDR [id=" + id + ", circuloPrimitivo1=" + circuloPrimitivo1 + ", passo=" + passo
-				+ ", folgaCabeca=" + folgaCabeca + ", alturaCabecaDente=" + alturaCabecaDente + ", alturaPeDente="
-				+ alturaPeDente + ", alturaDente=" + alturaDente + ", circuloCabeca=" + circuloCabeca + ", circuloPe="
-				+ circuloPe + ", distanciaEixos=" + distanciaEixos + ", circuloCabecaInterno=" + circuloCabecaInterno
-				+ ", circuloPeInterno=" + circuloPeInterno + ", circuloPrimitivo2=" + circuloPrimitivo2
-				+ ", distanciaEixosInterno=" + distanciaEixosInterno + ", aluno=" + aluno + "]";
+		return "ResultadosEDR{" +
+				"id=" + id +
+				", circuloPrimitivo1=" + circuloPrimitivo1 +
+				", passo=" + passo +
+				", folgaCabeca=" + folgaCabeca +
+				", alturaCabecaDente=" + alturaCabecaDente +
+				", alturaPeDente=" + alturaPeDente +
+				", alturaDente=" + alturaDente +
+				", circuloCabeca=" + circuloCabeca +
+				", circuloPe=" + circuloPe +
+				", distanciaEixos=" + distanciaEixos +
+				", circuloCabecaInterno=" + circuloCabecaInterno +
+				", circuloPeInterno=" + circuloPeInterno +
+				", circuloPrimitivo2=" + circuloPrimitivo2 +
+				", distanciaEixosInterno=" + distanciaEixosInterno +
+				", aluno=" + aluno.getNome() +
+				'}';
 	}
-
-	
 }

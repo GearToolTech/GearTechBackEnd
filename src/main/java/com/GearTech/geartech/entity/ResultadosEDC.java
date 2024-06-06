@@ -118,37 +118,30 @@ public class ResultadosEDC {
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(aluno, anguloConeCabe1, anguloConeCabe2, anguloEixos, anguloPrimitivo1, anguloPrimitivo2,
-				circuloPrimitivo1, circuloPrimitivo2, id);
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		ResultadosEDC that = (ResultadosEDC) o;
+		return Float.compare(circuloPrimitivo1, that.circuloPrimitivo1) == 0 && Float.compare(circuloPrimitivo2, that.circuloPrimitivo2) == 0 && Float.compare(anguloConeCabe1, that.anguloConeCabe1) == 0 && Float.compare(anguloConeCabe2, that.anguloConeCabe2) == 0 && Float.compare(anguloPrimitivo1, that.anguloPrimitivo1) == 0 && Float.compare(anguloPrimitivo2, that.anguloPrimitivo2) == 0 && Float.compare(anguloEixos, that.anguloEixos) == 0 && Objects.equals(id, that.id) && Objects.equals(aluno, that.aluno);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ResultadosEDC other = (ResultadosEDC) obj;
-		return Objects.equals(aluno, other.aluno)
-				&& Float.floatToIntBits(anguloConeCabe1) == Float.floatToIntBits(other.anguloConeCabe1)
-				&& Float.floatToIntBits(anguloConeCabe2) == Float.floatToIntBits(other.anguloConeCabe2)
-				&& Float.floatToIntBits(anguloEixos) == Float.floatToIntBits(other.anguloEixos)
-				&& Float.floatToIntBits(anguloPrimitivo1) == Float.floatToIntBits(other.anguloPrimitivo1)
-				&& Float.floatToIntBits(anguloPrimitivo2) == Float.floatToIntBits(other.anguloPrimitivo2)
-				&& Float.floatToIntBits(circuloPrimitivo1) == Float.floatToIntBits(other.circuloPrimitivo1)
-				&& Float.floatToIntBits(circuloPrimitivo2) == Float.floatToIntBits(other.circuloPrimitivo2)
-				&& Objects.equals(id, other.id);
+	public int hashCode() {
+		return Objects.hash(id, circuloPrimitivo1, circuloPrimitivo2, anguloConeCabe1, anguloConeCabe2, anguloPrimitivo1, anguloPrimitivo2, anguloEixos, aluno);
 	}
 
 	@Override
 	public String toString() {
-		return "ResultadosEDC [id=" + id + ", circuloPrimitivo1=" + circuloPrimitivo1 + ", circuloPrimitivo2="
-				+ circuloPrimitivo2 + ", anguloConeCabe1=" + anguloConeCabe1 + ", anguloConeCabe2=" + anguloConeCabe2
-				+ ", anguloPrimitivo1=" + anguloPrimitivo1 + ", anguloPrimitivo2=" + anguloPrimitivo2 + ", anguloEixos="
-				+ anguloEixos + ", aluno=" + aluno + "]";
+		return "ResultadosEDC{" +
+				"id=" + id +
+				", circuloPrimitivo1=" + circuloPrimitivo1 +
+				", circuloPrimitivo2=" + circuloPrimitivo2 +
+				", anguloConeCabe1=" + anguloConeCabe1 +
+				", anguloConeCabe2=" + anguloConeCabe2 +
+				", anguloPrimitivo1=" + anguloPrimitivo1 +
+				", anguloPrimitivo2=" + anguloPrimitivo2 +
+				", anguloEixos=" + anguloEixos +
+				", aluno=" + aluno.getNome() +
+				'}';
 	}
-
 }
