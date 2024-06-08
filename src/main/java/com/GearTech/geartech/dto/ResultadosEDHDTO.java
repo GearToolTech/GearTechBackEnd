@@ -14,6 +14,7 @@ public class ResultadosEDHDTO {
     public float passoHelicoidal;
     public float distanciaEntreEixos;
     private AlunoDTO aluno;
+    private ProfessorDTO professor;
 
     public ResultadosEDHDTO() {
     }
@@ -28,6 +29,17 @@ public class ResultadosEDHDTO {
         this.passoHelicoidal = passoHelicoidal;
         this.distanciaEntreEixos = distanciaEntreEixos;
         this.aluno = aluno;
+    }
+
+    public ResultadosEDHDTO(Long id, float circuloPrimitivo1, float circuloPrimitivo2, float moduloNormal, float passoNormal, float passoHelicoidal, float distanciaEntreEixos, ProfessorDTO professor) {
+        this.id = id;
+        this.circuloPrimitivo1 = circuloPrimitivo1;
+        this.circuloPrimitivo2 = circuloPrimitivo2;
+        this.moduloNormal = moduloNormal;
+        this.passoNormal = passoNormal;
+        this.passoHelicoidal = passoHelicoidal;
+        this.distanciaEntreEixos = distanciaEntreEixos;
+        this.professor = professor;
     }
 
     public Long getId() {
@@ -92,5 +104,13 @@ public class ResultadosEDHDTO {
 
     public void setAluno(AlunoDTO aluno) {
         this.aluno = aluno;
+    }
+
+    public ProfessorDTO getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(ProfessorDTO professor) {
+        this.professor = professor;
     }
 }

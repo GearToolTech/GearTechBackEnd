@@ -21,18 +21,23 @@ public class ResultadosT {
 	private float iIndividuais;
 
 	@ManyToOne
-	@JoinColumn(nullable = false)
+	@JoinColumn(nullable = true)
 	private Aluno aluno;
+
+	@ManyToOne
+	@JoinColumn(nullable = true)
+	private Professor professor;
 
 	public ResultadosT() {
 	}
 
-	public ResultadosT(Long id, float iTotal, float iIndividuais, Aluno aluno) {
+	public ResultadosT(Long id, float iTotal, float iIndividuais, Aluno aluno, Professor professor) {
 		super();
 		this.id = id;
 		this.iTotal = iTotal;
 		this.iIndividuais = iIndividuais;
 		this.aluno = aluno;
+		this.professor = professor;
 	}
 
 	public Long getId() {
@@ -67,26 +72,43 @@ public class ResultadosT {
 		this.aluno = aluno;
 	}
 
+	public Professor getProfessor() {
+		return professor;
+	}
+
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		ResultadosT that = (ResultadosT) o;
-		return Float.compare(iTotal, that.iTotal) == 0 && Float.compare(iIndividuais, that.iIndividuais) == 0 && Objects.equals(id, that.id) && Objects.equals(aluno, that.aluno);
+		return Float.compare(iTotal, that.iTotal) == 0 && Float.compare(iIndividuais, that.iIndividuais) == 0 && Objects.equals(id, that.id) && Objects.equals(aluno, that.aluno) && Objects.equals(professor, that.professor);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, iTotal, iIndividuais, aluno);
+		return Objects.hash(id, iTotal, iIndividuais, aluno, professor);
 	}
 
 	@Override
 	public String toString() {
-		return "ResultadosT{" +
-				"id=" + id +
-				", iTotal=" + iTotal +
-				", iIndividuais=" + iIndividuais +
-				", aluno=" + aluno.getNome() +
-				'}';
+		StringBuilder sb = new StringBuilder();
+		sb.append("ResultadosT{")
+				.append("id=").append(id)
+				.append(", iTotal=").append(iTotal)
+				.append(", iIndividuais=").append(iIndividuais);
+
+		if (aluno != null) {
+			sb.append(", aluno=").append(aluno.getNome());
+		} else if (professor != null) {
+			sb.append(", professor=").append(professor.getNome());
+		}
+
+		sb.append('}');
+		return sb.toString();
 	}
+
 }

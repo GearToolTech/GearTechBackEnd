@@ -10,7 +10,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface ResultadosEDRRepository extends JpaRepository<ResultadosEDR, Long> {
     @Query("SELECT r FROM ResultadosEDR r WHERE r.aluno.numMatricula = :numMatricula")
-    List<ResultadosEDR> findByAlunoNumMatricula(@Param("numMatricula") String numMatricula);
+    List<ResultadosEDR> findByAluno(@Param("numMatricula") String numMatricula);
+
+    @Query("SELECT r FROM ResultadosEDR r WHERE r.professor.nif = :nif")
+    List<ResultadosEDR> findByProfessor(@Param("nif") String nif);
 }
 
 

@@ -1,12 +1,13 @@
 package com.GearTech.geartech.controller;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.GearTech.geartech.dto.AlunoDTO;
+import com.GearTech.geartech.dto.ProfessorDTO;
 import com.GearTech.geartech.dto.ResultadosEDRDTO;
 import com.GearTech.geartech.entity.Aluno;
+import com.GearTech.geartech.entity.Professor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,13 +35,13 @@ public class ResultadosEDRControler {
 	}
 
 	@GetMapping("/aluno/{numMatricula}")
-	public ResponseEntity<List<ResultadosEDRDTO>> findResultadosByAlunoNumMatricula(@PathVariable String numMatricula) {
-		List<ResultadosEDR> resultados = resultadosEDRRepository.findByAlunoNumMatricula(numMatricula);
+	public ResponseEntity<List<ResultadosEDRDTO>> findResultadosByAluno(@PathVariable String numMatricula) {
+		List<ResultadosEDR> resultados = resultadosEDRRepository.findByAluno(numMatricula);
 
 		// Converta para DTO
 		List<ResultadosEDRDTO> resultadosDTO = resultados.stream()
 				.map(resultado -> {
-					Aluno aluno = resultado.getAluno(); // Supondo que você tenha um método getAluno() em ResultadosEDR
+					Aluno aluno = resultado.getAluno();
 					AlunoDTO alunoDTO = new AlunoDTO(aluno.getNumMatricula(), aluno.getNome());
 					return new ResultadosEDRDTO(
 							resultado.getId(),
@@ -58,6 +59,38 @@ public class ResultadosEDRControler {
 							resultado.getCirculoPrimitivo2(),
 							resultado.getDistanciaEixosInterno(),
 							alunoDTO
+					);
+				})
+				.collect(Collectors.toList());
+
+		return ResponseEntity.ok(resultadosDTO);
+	}
+
+	@GetMapping("/professor/{nif}")
+	public ResponseEntity<List<ResultadosEDRDTO>> findResultadosByProfessor(@PathVariable String nif) {
+		List<ResultadosEDR> resultados = resultadosEDRRepository.findByProfessor(nif);
+
+		// Converta para DTO
+		List<ResultadosEDRDTO> resultadosDTO = resultados.stream()
+				.map(resultado -> {
+					Professor professor = resultado.getProfessor();
+					ProfessorDTO professorDTO = new ProfessorDTO(professor.getNif(), professor.getNome());
+					return new ResultadosEDRDTO(
+							resultado.getId(),
+							resultado.getCirculoPrimitivo1(),
+							resultado.getPasso(),
+							resultado.getFolgaCabeca(),
+							resultado.getAlturaCabecaDente(),
+							resultado.getAlturaPeDente(),
+							resultado.getAlturaDente(),
+							resultado.getCirculoCabeca(),
+							resultado.getCirculoPe(),
+							resultado.getDistanciaEixos(),
+							resultado.getCirculoCabecaInterno(),
+							resultado.getCirculoPeInterno(),
+							resultado.getCirculoPrimitivo2(),
+							resultado.getDistanciaEixosInterno(),
+							professorDTO
 					);
 				})
 				.collect(Collectors.toList());

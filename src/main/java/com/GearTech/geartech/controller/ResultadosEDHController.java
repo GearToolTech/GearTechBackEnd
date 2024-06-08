@@ -1,27 +1,18 @@
 package com.GearTech.geartech.controller;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.GearTech.geartech.dto.AlunoDTO;
+import com.GearTech.geartech.dto.ProfessorDTO;
 import com.GearTech.geartech.dto.ResultadosEDHDTO;
-import com.GearTech.geartech.dto.ResultadosEDRDTO;
 import com.GearTech.geartech.entity.Aluno;
-import com.GearTech.geartech.entity.ResultadosEDR;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.GearTech.geartech.entity.Professor;
 import com.GearTech.geartech.entity.ResultadosEDH;
 import com.GearTech.geartech.repository.ResultadosEDHRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/resultadoDentesHelicoidas")
@@ -31,8 +22,8 @@ public class ResultadosEDHController {
 	private ResultadosEDHRepository resultadosEDHRepository;
 
 	@GetMapping("/aluno/{numMatricula}")
-	public ResponseEntity<List<ResultadosEDHDTO>> findResultadosByAlunoNumMatricula(@PathVariable String numMatricula) {
-		List<ResultadosEDH> resultados = resultadosEDHRepository.findByAlunoNumMatricula(numMatricula);
+	public ResponseEntity<List<ResultadosEDHDTO>> findResultadosByAluno(@PathVariable String numMatricula) {
+		List<ResultadosEDH> resultados = resultadosEDHRepository.findByAluno(numMatricula);
 
 		List<ResultadosEDHDTO> resultadosDTO = resultados.stream()
 				.map(resultado -> {
@@ -52,10 +43,28 @@ public class ResultadosEDHController {
 
 		return ResponseEntity.ok(resultadosDTO);
 	}
-	
-	@GetMapping("/{id}")
-	public Optional<ResultadosEDH> findById(@PathVariable Long id) {
-		return resultadosEDHRepository.findById(id);
+
+	@GetMapping("/professor/{nif}")
+	public ResponseEntity<List<ResultadosEDHDTO>> findResultadosByProfessor(@PathVariable String nif) {
+		List<ResultadosEDH> resultados = resultadosEDHRepository.findByProfessor(nif);
+
+		List<ResultadosEDHDTO> resultadosDTO = resultados.stream()
+				.map(resultado -> {
+					Professor professor = resultado.getProfessor();
+					ProfessorDTO professorDTO = new ProfessorDTO(professor.getNif(), professor.getNome());
+					return new ResultadosEDHDTO(
+							resultado.getId(),
+							resultado.getCirculoPrimitivo1(),
+							resultado.getCirculoPrimitivo2(),
+							resultado.getModuloNormal(),
+							resultado.getPassoNormal(),
+							resultado.getPassoHelicoidal(),
+							resultado.getDistanciaEntreEixos(),
+							professorDTO
+					);
+				}).collect(Collectors.toList());
+
+		return ResponseEntity.ok(resultadosDTO);
 	}
 	
 	@PostMapping

@@ -10,6 +10,7 @@ public class ResultadosTDTO {
     private float iTotal;
     private float iIndividuais;
     private AlunoDTO aluno;
+    private ProfessorDTO professor;
 
 
     public ResultadosTDTO() {
@@ -21,6 +22,13 @@ public class ResultadosTDTO {
         this.iTotal = iTotal;
         this.iIndividuais = iIndividuais;
         this.aluno = aluno;
+    }
+
+    public ResultadosTDTO(Long id, float iTotal, float iIndividuais, ProfessorDTO professor) {
+        this.id = id;
+        this.iTotal = iTotal;
+        this.iIndividuais = iIndividuais;
+        this.professor = professor;
     }
 
     public Long getId() {
@@ -53,5 +61,13 @@ public class ResultadosTDTO {
 
     public void setAluno(AlunoDTO aluno) {
         this.aluno = aluno;
+    }
+
+    public ProfessorDTO getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(ProfessorDTO professor) {
+        this.professor = professor;
     }
 }

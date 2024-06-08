@@ -16,6 +16,7 @@ public class ResultadosEDRDTO {
     private float circuloPrimitivo2;
     private float distanciaEixosInterno;
     private AlunoDTO aluno;
+    private ProfessorDTO professor;
 
     // Construtores, getters e setters
     public ResultadosEDRDTO() {}
@@ -39,6 +40,24 @@ public class ResultadosEDRDTO {
         this.circuloPrimitivo2 = circuloPrimitivo2;
         this.distanciaEixosInterno = distanciaEixosInterno;
         this.aluno = aluno;
+    }
+
+    public ResultadosEDRDTO(Long id, float circuloPrimitivo1, float passo, float folgaCabeca, float alturaCabecaDente, float alturaPeDente, float alturaDente, float circuloCabeca, float circuloPe, float distanciaEixos, float circuloCabecaInterno, float circuloPeInterno, float circuloPrimitivo2, float distanciaEixosInterno, ProfessorDTO professor) {
+        this.id = id;
+        this.circuloPrimitivo1 = circuloPrimitivo1;
+        this.passo = passo;
+        this.folgaCabeca = folgaCabeca;
+        this.alturaCabecaDente = alturaCabecaDente;
+        this.alturaPeDente = alturaPeDente;
+        this.alturaDente = alturaDente;
+        this.circuloCabeca = circuloCabeca;
+        this.circuloPe = circuloPe;
+        this.distanciaEixos = distanciaEixos;
+        this.circuloCabecaInterno = circuloCabecaInterno;
+        this.circuloPeInterno = circuloPeInterno;
+        this.circuloPrimitivo2 = circuloPrimitivo2;
+        this.distanciaEixosInterno = distanciaEixosInterno;
+        this.professor = professor;
     }
 
     // Getters and setters for all fields
@@ -160,6 +179,14 @@ public class ResultadosEDRDTO {
 
     public void setAluno(AlunoDTO aluno) {
         this.aluno = aluno;
+    }
+
+    public ProfessorDTO getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(ProfessorDTO professor) {
+        this.professor = professor;
     }
 }
 

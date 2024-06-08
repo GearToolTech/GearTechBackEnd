@@ -30,18 +30,19 @@ public class ResultadosEDR {
 	public float circuloPeInterno;
 	public float circuloPrimitivo2;
 	public float distanciaEixosInterno;
-	
+
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Aluno aluno;
 
+	@ManyToOne
+	@JoinColumn(nullable = true)
+	private Professor professor;
+
 	public ResultadosEDR() {
 	}
 
-	public ResultadosEDR(Long id, float circuloPrimitivo1, float passo, float folgaCabeca, float alturaCabecaDente,
-			float alturaPeDente, float alturaDente, float circuloCabeca, float circuloPe, float distanciaEixos,
-			float circuloCabecaInterno, float circuloPeInterno, float circuloPrimitivo2, float distanciaEixosInterno,
-			Aluno aluno) {
+	public ResultadosEDR(Long id, float circuloPrimitivo1, float passo, float folgaCabeca, float alturaCabecaDente, float alturaPeDente, float alturaDente, float circuloCabeca, float circuloPe, float distanciaEixos, float circuloCabecaInterno, float circuloPeInterno, float circuloPrimitivo2, float distanciaEixosInterno, Aluno aluno, Professor professor) {
 		this.id = id;
 		this.circuloPrimitivo1 = circuloPrimitivo1;
 		this.passo = passo;
@@ -57,6 +58,7 @@ public class ResultadosEDR {
 		this.circuloPrimitivo2 = circuloPrimitivo2;
 		this.distanciaEixosInterno = distanciaEixosInterno;
 		this.aluno = aluno;
+		this.professor = professor;
 	}
 
 	public Long getId() {
@@ -179,37 +181,54 @@ public class ResultadosEDR {
 		this.aluno = aluno;
 	}
 
+	public Professor getProfessor() {
+		return professor;
+	}
+
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		ResultadosEDR that = (ResultadosEDR) o;
-		return Float.compare(circuloPrimitivo1, that.circuloPrimitivo1) == 0 && Float.compare(passo, that.passo) == 0 && Float.compare(folgaCabeca, that.folgaCabeca) == 0 && Float.compare(alturaCabecaDente, that.alturaCabecaDente) == 0 && Float.compare(alturaPeDente, that.alturaPeDente) == 0 && Float.compare(alturaDente, that.alturaDente) == 0 && Float.compare(circuloCabeca, that.circuloCabeca) == 0 && Float.compare(circuloPe, that.circuloPe) == 0 && Float.compare(distanciaEixos, that.distanciaEixos) == 0 && Float.compare(circuloCabecaInterno, that.circuloCabecaInterno) == 0 && Float.compare(circuloPeInterno, that.circuloPeInterno) == 0 && Float.compare(circuloPrimitivo2, that.circuloPrimitivo2) == 0 && Float.compare(distanciaEixosInterno, that.distanciaEixosInterno) == 0 && Objects.equals(id, that.id) && Objects.equals(aluno, that.aluno);
+		return Float.compare(circuloPrimitivo1, that.circuloPrimitivo1) == 0 && Float.compare(passo, that.passo) == 0 && Float.compare(folgaCabeca, that.folgaCabeca) == 0 && Float.compare(alturaCabecaDente, that.alturaCabecaDente) == 0 && Float.compare(alturaPeDente, that.alturaPeDente) == 0 && Float.compare(alturaDente, that.alturaDente) == 0 && Float.compare(circuloCabeca, that.circuloCabeca) == 0 && Float.compare(circuloPe, that.circuloPe) == 0 && Float.compare(distanciaEixos, that.distanciaEixos) == 0 && Float.compare(circuloCabecaInterno, that.circuloCabecaInterno) == 0 && Float.compare(circuloPeInterno, that.circuloPeInterno) == 0 && Float.compare(circuloPrimitivo2, that.circuloPrimitivo2) == 0 && Float.compare(distanciaEixosInterno, that.distanciaEixosInterno) == 0 && Objects.equals(id, that.id) && Objects.equals(aluno, that.aluno) && Objects.equals(professor, that.professor);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, circuloPrimitivo1, passo, folgaCabeca, alturaCabecaDente, alturaPeDente, alturaDente, circuloCabeca, circuloPe, distanciaEixos, circuloCabecaInterno, circuloPeInterno, circuloPrimitivo2, distanciaEixosInterno, aluno);
+		return Objects.hash(id, circuloPrimitivo1, passo, folgaCabeca, alturaCabecaDente, alturaPeDente, alturaDente, circuloCabeca, circuloPe, distanciaEixos, circuloCabecaInterno, circuloPeInterno, circuloPrimitivo2, distanciaEixosInterno, aluno, professor);
 	}
 
 	@Override
 	public String toString() {
-		return "ResultadosEDR{" +
-				"id=" + id +
-				", circuloPrimitivo1=" + circuloPrimitivo1 +
-				", passo=" + passo +
-				", folgaCabeca=" + folgaCabeca +
-				", alturaCabecaDente=" + alturaCabecaDente +
-				", alturaPeDente=" + alturaPeDente +
-				", alturaDente=" + alturaDente +
-				", circuloCabeca=" + circuloCabeca +
-				", circuloPe=" + circuloPe +
-				", distanciaEixos=" + distanciaEixos +
-				", circuloCabecaInterno=" + circuloCabecaInterno +
-				", circuloPeInterno=" + circuloPeInterno +
-				", circuloPrimitivo2=" + circuloPrimitivo2 +
-				", distanciaEixosInterno=" + distanciaEixosInterno +
-				", aluno=" + aluno.getNome() +
-				'}';
+		StringBuilder sb = new StringBuilder();
+		sb.append("ResultadosEDR{")
+				.append("id=").append(id)
+				.append(", circuloPrimitivo1=").append(circuloPrimitivo1)
+				.append(", passo=").append(passo)
+				.append(", folgaCabeca=").append(folgaCabeca)
+				.append(", alturaCabecaDente=").append(alturaCabecaDente)
+				.append(", alturaPeDente=").append(alturaPeDente)
+				.append(", alturaDente=").append(alturaDente)
+				.append(", circuloCabeca=").append(circuloCabeca)
+				.append(", circuloPe=").append(circuloPe)
+				.append(", distanciaEixos=").append(distanciaEixos)
+				.append(", circuloCabecaInterno=").append(circuloCabecaInterno)
+				.append(", circuloPeInterno=").append(circuloPeInterno)
+				.append(", circuloPrimitivo2=").append(circuloPrimitivo2)
+				.append(", distanciaEixosInterno=").append(distanciaEixosInterno);
+
+		if (aluno != null) {
+			sb.append(", aluno=").append(aluno.getNome());
+		} else if (professor != null) {
+			sb.append(", professor=").append(professor.getNome());
+		}
+
+		sb.append('}');
+		return sb.toString();
 	}
+
 }

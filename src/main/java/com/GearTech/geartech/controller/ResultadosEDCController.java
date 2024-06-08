@@ -5,8 +5,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.GearTech.geartech.dto.AlunoDTO;
+import com.GearTech.geartech.dto.ProfessorDTO;
 import com.GearTech.geartech.dto.ResultadosEDCDTO;
 import com.GearTech.geartech.entity.Aluno;
+import com.GearTech.geartech.entity.Professor;
 import com.GearTech.geartech.entity.ResultadosEDR;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,11 +37,11 @@ public class ResultadosEDCController {
 	}
 
 	@GetMapping("/aluno/{numMatricula}")
-	public ResponseEntity<List<ResultadosEDCDTO>> findResultadosByAlunoNumMatricula(@PathVariable String numMatricula) {
-		List<ResultadosEDC> resultados = resultadosEDCRepository.findByAlunoNumMatricula(numMatricula);
+	public ResponseEntity<List<ResultadosEDCDTO>> findResultadosByAluno(@PathVariable String numMatricula) {
+		List<ResultadosEDC> resultados = resultadosEDCRepository.findByAluno(numMatricula);
 
 		List<ResultadosEDCDTO> resultadosDTO = resultados.stream().map(resultado -> {
-			Aluno aluno = resultado.getAluno(); // Supondo que você tenha um método getAluno() em ResultadosEDR
+			Aluno aluno = resultado.getAluno();
 			AlunoDTO alunoDTO = new AlunoDTO(aluno.getNumMatricula(), aluno.getNome());
 			return new ResultadosEDCDTO(
 					resultado.getId(),
@@ -51,6 +53,29 @@ public class ResultadosEDCController {
 					resultado.getAnguloPrimitivo2(),
 					resultado.getAnguloEixos(),
 					alunoDTO
+			);
+		}).collect(Collectors.toList());
+
+		return ResponseEntity.ok(resultadosDTO);
+	}
+
+	@GetMapping("/professor/{nif}")
+	public ResponseEntity<List<ResultadosEDCDTO>> findResultadosByProfessor(@PathVariable String nif) {
+		List<ResultadosEDC> resultados = resultadosEDCRepository.findByProfessor(nif);
+
+		List<ResultadosEDCDTO> resultadosDTO = resultados.stream().map(resultado -> {
+			Professor professor = resultado.getProfessor();
+			ProfessorDTO professorDTO = new ProfessorDTO(professor.getNif(), professor.getNome());
+			return new ResultadosEDCDTO(
+					resultado.getId(),
+					resultado.getCirculoPrimitivo1(),
+					resultado.getCirculoPrimitivo2(),
+					resultado.getAnguloConeCabe1(),
+					resultado.getAnguloConeCabe2(),
+					resultado.getAnguloPrimitivo1(),
+					resultado.getAnguloPrimitivo2(),
+					resultado.getAnguloEixos(),
+					professorDTO
 			);
 		}).collect(Collectors.toList());
 

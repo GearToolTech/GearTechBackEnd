@@ -15,12 +15,12 @@ public class ResultadosEDCDTO {
     public float anguloPrimitivo2;
     public float anguloEixos;
     private AlunoDTO aluno;
+    private ProfessorDTO professor;
 
     public ResultadosEDCDTO() {
     }
 
-    public ResultadosEDCDTO(Long id, float circuloPrimitivo1, float circuloPrimitivo2, float anguloConeCabe1,
-                         float anguloConeCabe2, float anguloPrimitivo1, float anguloPrimitivo2, float anguloEixos, AlunoDTO aluno) {
+    public ResultadosEDCDTO(Long id, float circuloPrimitivo1, float circuloPrimitivo2, float anguloConeCabe1, float anguloConeCabe2, float anguloPrimitivo1, float anguloPrimitivo2, float anguloEixos, AlunoDTO aluno) {
         this.id = id;
         this.circuloPrimitivo1 = circuloPrimitivo1;
         this.circuloPrimitivo2 = circuloPrimitivo2;
@@ -30,6 +30,18 @@ public class ResultadosEDCDTO {
         this.anguloPrimitivo2 = anguloPrimitivo2;
         this.anguloEixos = anguloEixos;
         this.aluno = aluno;
+    }
+
+    public ResultadosEDCDTO(Long id, float circuloPrimitivo1, float circuloPrimitivo2, float anguloConeCabe1, float anguloConeCabe2, float anguloPrimitivo1, float anguloPrimitivo2, float anguloEixos, ProfessorDTO professor) {
+        this.id = id;
+        this.circuloPrimitivo1 = circuloPrimitivo1;
+        this.circuloPrimitivo2 = circuloPrimitivo2;
+        this.anguloConeCabe1 = anguloConeCabe1;
+        this.anguloConeCabe2 = anguloConeCabe2;
+        this.anguloPrimitivo1 = anguloPrimitivo1;
+        this.anguloPrimitivo2 = anguloPrimitivo2;
+        this.anguloEixos = anguloEixos;
+        this.professor = professor;
     }
 
     public Long getId() {
@@ -96,12 +108,19 @@ public class ResultadosEDCDTO {
         this.anguloEixos = anguloEixos;
     }
 
-
     public AlunoDTO getAluno() {
         return aluno;
     }
 
     public void setAluno(AlunoDTO aluno) {
         this.aluno = aluno;
+    }
+
+    public ProfessorDTO getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(ProfessorDTO professor) {
+        this.professor = professor;
     }
 }

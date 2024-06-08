@@ -19,14 +19,17 @@ public class ResultadosEDH {
 	public float distanciaEntreEixos;
 
 	@ManyToOne
-	@JoinColumn(nullable = false)
+	@JoinColumn(nullable = true)
 	private Aluno aluno;
+
+	@ManyToOne
+	@JoinColumn(nullable = true)
+	private Professor professor;
 
 	public ResultadosEDH() {
 	}
 
-	public ResultadosEDH(Long id, float circuloPrimitivo1, float circuloPrimitivo2, float moduloNormal,
-			float passoNormal, float passoHelicoidal, float distanciaEntreEixos, Aluno aluno) {
+	public ResultadosEDH(Long id, float circuloPrimitivo1, float circuloPrimitivo2, float moduloNormal, float passoNormal, float passoHelicoidal, float distanciaEntreEixos, Aluno aluno, Professor professor) {
 		this.id = id;
 		this.circuloPrimitivo1 = circuloPrimitivo1;
 		this.circuloPrimitivo2 = circuloPrimitivo2;
@@ -35,6 +38,7 @@ public class ResultadosEDH {
 		this.passoHelicoidal = passoHelicoidal;
 		this.distanciaEntreEixos = distanciaEntreEixos;
 		this.aluno = aluno;
+		this.professor = professor;
 	}
 
 	public Long getId() {
@@ -101,30 +105,47 @@ public class ResultadosEDH {
 		this.aluno = aluno;
 	}
 
+	public Professor getProfessor() {
+		return professor;
+	}
+
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		ResultadosEDH that = (ResultadosEDH) o;
-		return Float.compare(circuloPrimitivo1, that.circuloPrimitivo1) == 0 && Float.compare(circuloPrimitivo2, that.circuloPrimitivo2) == 0 && Float.compare(moduloNormal, that.moduloNormal) == 0 && Float.compare(passoNormal, that.passoNormal) == 0 && Float.compare(passoHelicoidal, that.passoHelicoidal) == 0 && Float.compare(distanciaEntreEixos, that.distanciaEntreEixos) == 0 && Objects.equals(id, that.id) && Objects.equals(aluno, that.aluno);
+		return Float.compare(circuloPrimitivo1, that.circuloPrimitivo1) == 0 && Float.compare(circuloPrimitivo2, that.circuloPrimitivo2) == 0 && Float.compare(moduloNormal, that.moduloNormal) == 0 && Float.compare(passoNormal, that.passoNormal) == 0 && Float.compare(passoHelicoidal, that.passoHelicoidal) == 0 && Float.compare(distanciaEntreEixos, that.distanciaEntreEixos) == 0 && Objects.equals(id, that.id) && Objects.equals(aluno, that.aluno) && Objects.equals(professor, that.professor);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, circuloPrimitivo1, circuloPrimitivo2, moduloNormal, passoNormal, passoHelicoidal, distanciaEntreEixos, aluno);
+		return Objects.hash(id, circuloPrimitivo1, circuloPrimitivo2, moduloNormal, passoNormal, passoHelicoidal, distanciaEntreEixos, aluno, professor);
 	}
 
 	@Override
 	public String toString() {
-		return "ResultadosEDH{" +
-				"id=" + id +
-				", circuloPrimitivo1=" + circuloPrimitivo1 +
-				", circuloPrimitivo2=" + circuloPrimitivo2 +
-				", moduloNormal=" + moduloNormal +
-				", passoNormal=" + passoNormal +
-				", passoHelicoidal=" + passoHelicoidal +
-				", distanciaEntreEixos=" + distanciaEntreEixos +
-				", aluno=" + aluno.getNome() +
-				'}';
+		StringBuilder sb = new StringBuilder();
+		sb.append("ResultadosEDH{")
+				.append("id=").append(id)
+				.append(", circuloPrimitivo1=").append(circuloPrimitivo1)
+				.append(", circuloPrimitivo2=").append(circuloPrimitivo2)
+				.append(", moduloNormal=").append(moduloNormal)
+				.append(", passoNormal=").append(passoNormal)
+				.append(", passoHelicoidal=").append(passoHelicoidal)
+				.append(", distanciaEntreEixos=").append(distanciaEntreEixos);
+
+		if (aluno != null) {
+			sb.append(", aluno=").append(aluno.getNome());
+		} else if (professor != null) {
+			sb.append(", professor=").append(professor.getNome());
+		}
+
+		sb.append('}');
+		return sb.toString();
 	}
+
 }
